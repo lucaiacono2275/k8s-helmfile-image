@@ -1,25 +1,61 @@
-FROM codercom/enterprise-base:ubuntu  
+FROM alpine
 
-ARG ARCH=arm64
-ARG HELM_VERSION=3.16.1
-ARG HELMFILE_RELEASE=0.168.0
+ARG ARCH
 
-SHELL ["/bin/bash", "-c"]
+# Ignore to update versions here
+# docker build --no-cache --build-arg KUBECTL_VERSION=${tag} --build-arg HELM_VERSION=${helm} --build-arg KUSTOMIZE_VERSION=${kustomize_version} -t ${image}:${tag} .
+ARG HELM_VERSION=3.2.1
+ARG KUBECTL_VERSION=1.17.5
+ARG KUSTOMIZE_VERSION=v3.8.1
 
-# Configure apt and install packages
-RUN apt-get update \
-    && apt-get install -y kubectl 2>&1
-    #
+# Install helm (latest release)
+# ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
+RUN case `uname -m` in \
+    x86_64) ARCH=amd64; ;; \
+    armv7l) ARCH=arm; ;; \
+    aarch64) ARCH=arm64; ;; \
+    ppc64le) ARCH=ppc64le; ;; \
+    s390x) ARCH=s390x; ;; \
+    *) echo "un-supported arch, exit ..."; exit 1; ;; \
+    esac && \
+    echo "export ARCH=$ARCH" > /envfile && \
+    cat /envfile
 
-#RUN \
-    # Install Helm
-    #&& curl -LO "https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz \
-    #&& tar -zxvf helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz \
-    #&& mv linux-${ARCH}/helm /usr/local/bin/helm  
+RUN . /envfile && echo $ARCH && \
+    apk add --update --no-cache curl ca-certificates bash git && \
+    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
+    mv linux-${ARCH}/helm /usr/bin/helm && \
+    chmod +x /usr/bin/helm && \
+    rm -rf linux-${ARCH}
 
-#RUN \
-    # Install helmfile
-    #&& curl -LO "https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_RELEASE}/helmfile_${HELMFILE_RELEASE}_linux_arm64.tar.gz" \
-    #&& tar zxvf helmfile_${HELMFILE_RELEASE}_linux_arm64.tar.gz \
-    #&& sudo mv helmfile /usr/local/bin 
-    # Install helm-unittest
+# add helm-diff
+RUN helm plugin install https://github.com/databus23/helm-diff && rm -rf /tmp/helm-*
+
+# add helm-unittest
+RUN helm plugin install https://github.com/helm-unittest/helm-unittest && rm -rf /tmp/helm-*
+
+# Install kubectl
+RUN . /envfile && echo $ARCH && \
+    curl -sLO "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
+    mv kubectl /usr/bin/kubectl && \
+    chmod +x /usr/bin/kubectl
+
+# Install kustomize (latest release)
+RUN . /envfile && echo $ARCH && \
+    curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
+    tar xvzf kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
+    mv kustomize /usr/bin/kustomize && \
+    chmod +x /usr/bin/kustomize && \
+    rm kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz
+
+# Install jq
+RUN apk add --update --no-cache jq yq
+
+# Install for envsubst
+RUN apk add --update --no-cache gettext
+
+USER 1000:1000
+ENV HOME=/home/coder
+ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt
+
+WORKDIR /home/coder
