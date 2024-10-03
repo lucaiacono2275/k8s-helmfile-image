@@ -57,7 +57,7 @@ RUN apk add --update --no-cache gettext
 
 # Install helmfile
 RUN . /envfile && echo $ARCH && \
-    curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
+    curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
     tar xvzf helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
     mv helmfile /usr/bin/helmfile && \
     chmod +x /usr/bin/helmfile && \
