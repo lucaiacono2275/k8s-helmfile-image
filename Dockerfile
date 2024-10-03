@@ -4,9 +4,11 @@ ARG ARCH=arm64
 ARG HELM_VERSION=3.16.1
 ARG HELMFILE_RELEASE=0.168.0
 
+SHELL [/bin/bash -c]
+
 # Configure apt and install packages
 RUN apt-get update \
-    && apt-get install -y kubectl 2>&1 \ 
+    && apt-get install -y kubectl 2>&1
     #
 
 #RUN \
