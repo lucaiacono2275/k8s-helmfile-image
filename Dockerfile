@@ -7,6 +7,7 @@ ARG ARCH
 ARG HELM_VERSION=3.2.1
 ARG KUBECTL_VERSION=1.17.5
 ARG KUSTOMIZE_VERSION=v3.8.1
+ARG HELMFILE_VERSION=0.168.0
 
 # Install helm (latest release)
 # ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
@@ -53,6 +54,14 @@ RUN apk add --update --no-cache jq yq
 
 # Install for envsubst
 RUN apk add --update --no-cache gettext
+
+# Install helmfile
+RUN . /envfile && echo $ARCH && \
+    curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
+    tar xvzf helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
+    mv helmfile /usr/bin/helmfile && \
+    chmod +x /usr/bin/helmfile && \
+    rm helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
 
 USER 1000:1000
 ENV HOME=/home/coder
