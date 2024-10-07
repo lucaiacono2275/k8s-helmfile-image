@@ -52,9 +52,6 @@ RUN . /envfile && echo $ARCH && \
 # Install jq
 RUN apk add --update --no-cache jq yq
 
-# Install for envsubst
-RUN apk add --update --no-cache gettext
-
 # Install helmfile
 RUN . /envfile && echo $ARCH && \
     curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
@@ -71,7 +68,9 @@ RUN addgroup -g 1000 coder && \
 	adduser -D -s /bin/bash -h /home/coder -u 1000 -G coder coder
 
 USER coder:coder
+
 ENV HOME=/home/coder
+
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt
 
 WORKDIR /home/coder
