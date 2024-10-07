@@ -70,7 +70,7 @@ RUN apk add --no-cache git openssl openssh-client
 RUN addgroup -g 1000 coder && \
 	adduser -D -s /bin/bash -h /home/coder -u 1000 -G coder coder
 
-USER 1000:1000
+USER coder:coder
 ENV HOME=/home/coder
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt
 
