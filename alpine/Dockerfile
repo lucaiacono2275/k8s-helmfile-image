@@ -27,7 +27,7 @@ RUN apk add --update --no-cache jq sudo
 ENV LANG=en_US.UTF-8
 
 # Add a user `coder` so that you're not developing as the `root` user
-RUN adduser -D -s /bin/bash -u 1000 && \
+RUN adduser -D -s /bin/bash -u 1000 coder && \
     echo "coder ALL=(ALL) NOPASSWD:ALL" >>/etc/sudoers.d/nopasswd
 
 USER coder
