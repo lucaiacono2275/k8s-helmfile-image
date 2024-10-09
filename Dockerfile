@@ -1,4 +1,4 @@
-FROM codercom/codercom/enterprise-minimal
+FROM codercom/enterprise-minimal
 
 ARG ARCH
 
