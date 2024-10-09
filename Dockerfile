@@ -31,35 +31,35 @@ RUN . /envfile && echo $ARCH && \
     rm -rf linux-${ARCH}
 
 # add helm-diff
-RUN helm plugin install https://github.com/databus23/helm-diff && rm -rf /tmp/helm-*
+#RUN helm plugin install https://github.com/databus23/helm-diff && rm -rf /tmp/helm-*
 
 # add helm-unittest
-RUN helm plugin install https://github.com/helm-unittest/helm-unittest && rm -rf /tmp/helm-*
+#RUN helm plugin install https://github.com/helm-unittest/helm-unittest && rm -rf /tmp/helm-*
 
 # Install kubectl
-RUN . /envfile && echo $ARCH && \
-    curl -sLO "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
-    mv kubectl /usr/bin/kubectl && \
-    chmod +x /usr/bin/kubectl
+#RUN . /envfile && echo $ARCH && \
+#    curl -sLO "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
+#    mv kubectl /usr/bin/kubectl && \
+#    chmod +x /usr/bin/kubectl
 
 # Install kustomize (latest release)
-RUN . /envfile && echo $ARCH && \
-    curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
-    tar xvzf kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
-    mv kustomize /usr/bin/kustomize && \
-    chmod +x /usr/bin/kustomize && \
-    rm kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz
+#RUN . /envfile && echo $ARCH && \
+#    curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
+#    tar xvzf kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
+#    mv kustomize /usr/bin/kustomize && \
+#    chmod +x /usr/bin/kustomize && \
+#    rm kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz
 
 # Install helmfile
-RUN . /envfile && echo $ARCH && \
-    curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
-    tar xvzf helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
-    mv helmfile /usr/bin/helmfile && \
-    chmod +x /usr/bin/helmfile && \
-    rm helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
+#RUN . /envfile && echo $ARCH && \
+#    curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
+#    tar xvzf helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
+#    mv helmfile /usr/bin/helmfile && \
+#    chmod +x /usr/bin/helmfile && \
+#    rm helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
 
 # Install openssl
-RUN apt-get install -y --no-install-recommends openssl openssh-client && \
-    rm -rf /var/lib/apt/lists/*
+#RUN apt-get install -y --no-install-recommends openssl openssh-client && \
+#    rm -rf /var/lib/apt/lists/*
 
 USER coder
