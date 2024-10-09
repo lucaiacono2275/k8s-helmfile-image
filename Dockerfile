@@ -19,10 +19,10 @@ RUN case `uname -m` in \
     s390x) ARCH=s390x; ;; \
     *) echo "un-supported arch, exit ..."; exit 1; ;; \
     esac && \
-    echo "export ARCH=$ARCH" > /envfile && \
-    cat /envfile
+    echo "export ARCH=$ARCH" > ./envfile && \
+    cat ./envfile
 
-RUN . /envfile && echo $ARCH && \
+RUN . ./envfile && echo $ARCH && \
     apk add --update --no-cache curl ca-certificates bash git && \
     curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
     mv linux-${ARCH}/helm /usr/bin/helm && \
@@ -36,13 +36,13 @@ RUN helm plugin install https://github.com/databus23/helm-diff && rm -rf /tmp/he
 RUN helm plugin install https://github.com/helm-unittest/helm-unittest && rm -rf /tmp/helm-*
 
 # Install kubectl
-RUN . /envfile && echo $ARCH && \
+RUN . ./envfile && echo $ARCH && \
     curl -sLO "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
     mv kubectl /usr/bin/kubectl && \
     chmod +x /usr/bin/kubectl
 
 # Install kustomize (latest release)
-RUN . /envfile && echo $ARCH && \
+RUN . ./envfile && echo $ARCH && \
     curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
     tar xvzf kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
     mv kustomize /usr/bin/kustomize && \
@@ -54,7 +54,7 @@ RUN apt-get install -y --no-install-recommends --update --no-cache yq openssl op
     rm -rf /var/lib/apt/lists/*
 
 # Install helmfile
-RUN . /envfile && echo $ARCH && \
+RUN . ./envfile && echo $ARCH && \
     curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
     tar xvzf helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
     mv helmfile /usr/bin/helmfile && \
