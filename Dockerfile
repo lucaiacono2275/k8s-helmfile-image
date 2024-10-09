@@ -11,11 +11,6 @@ ARG HELMFILE_VERSION=0.168.0
 
 USER root
 
-# Install openssl
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends openssl openssh-client && \
-    rm -rf /var/lib/apt/lists/*
-
 # Install helm (latest release)
 # ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
 RUN case `uname -m` in \
@@ -62,5 +57,9 @@ RUN . /envfile && echo $ARCH && \
     mv helmfile /usr/bin/helmfile && \
     chmod +x /usr/bin/helmfile && \
     rm helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
+
+# Install openssl
+RUN apt-get install -y --no-install-recommends openssl openssh-client && \
+    rm -rf /var/lib/apt/lists/*
 
 USER coder
