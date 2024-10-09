@@ -13,7 +13,7 @@ USER root
 
 # Install yq openssl
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends --update --no-cache yq openssl openssh-client && \
+    apt-get install -y --no-install-recommends yq openssl openssh-client && \
     rm -rf /var/lib/apt/lists/*
 
 # Install helm (latest release)
