@@ -11,9 +11,9 @@ ARG HELMFILE_VERSION=0.168.0
 
 USER root
 
-# Install yq openssl
+# Install openssl
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends yq openssl openssh-client && \
+    apt-get install -y --no-install-recommends openssl openssh-client && \
     rm -rf /var/lib/apt/lists/*
 
 # Install helm (latest release)
