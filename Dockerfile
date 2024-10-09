@@ -1,4 +1,4 @@
-FROM alpine
+FROM codercom/codercom/enterprise-minimal
 
 ARG ARCH
 
@@ -49,8 +49,9 @@ RUN . /envfile && echo $ARCH && \
     chmod +x /usr/bin/kustomize && \
     rm kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz
 
-# Install jq
-RUN apk add --update --no-cache jq yq
+# Install yq openssl
+RUN apt-get install -y --no-install-recommends --update --no-cache yq openssl openssh-client && \
+    rm -rf /var/lib/apt/lists/*
 
 # Install helmfile
 RUN . /envfile && echo $ARCH && \
@@ -59,18 +60,3 @@ RUN . /envfile && echo $ARCH && \
     mv helmfile /usr/bin/helmfile && \
     chmod +x /usr/bin/helmfile && \
     rm helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
-
-# Install git and openssl 
-RUN apk add --no-cache git openssl openssh-client
-
-# Add group and user
-RUN addgroup -g 1000 coder && \
-	adduser -D -s /bin/bash -h /home/coder -u 1000 -G coder coder
-
-USER 1000:1000
-
-ENV HOME=/home/coder
-
-ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt
-
-WORKDIR /home/coder
