@@ -9,6 +9,8 @@ ARG KUBECTL_VERSION=1.17.5
 ARG KUSTOMIZE_VERSION=v5.4.3
 ARG HELMFILE_VERSION=0.168.0
 
+USER root
+
 # Install helm (latest release)
 # ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
 RUN case `uname -m` in \
@@ -60,3 +62,5 @@ RUN . ./envfile && echo $ARCH && \
     mv helmfile /usr/bin/helmfile && \
     chmod +x /usr/bin/helmfile && \
     rm helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
+
+USER coder
