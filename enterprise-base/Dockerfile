@@ -1,4 +1,4 @@
-FROM codercom/enterprise-base:ubuntu-20241007
+FROM codercom/enterprise-base
 
 USER root
 
@@ -23,7 +23,7 @@ RUN case `uname -m` in \
     cat /envfile
 
 # Install helm (latest release)
-RUN . /envfile && echo ${ARCH} && \
+RUN . /envfile && echo ${ARCH} && echo ${HELM_VERSION} && \
     curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
     mv linux-${ARCH}/helm /usr/bin/helm && \
     chmod +x /usr/bin/helm && \
