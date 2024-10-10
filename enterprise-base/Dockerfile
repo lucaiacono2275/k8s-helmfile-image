@@ -3,6 +3,8 @@ FROM codercom/enterprise-base:${BASEIMAGE_VERSION}
 
 USER root
 
+ARG ARCH
+
 # docker build --no-cache --build-arg KUBECTL_VERSION=${tag} --build-arg HELM_VERSION=${helm} --build-arg KUSTOMIZE_VERSION=${kustomize_version} -t ${image}:${tag} .
 ARG HELM_VERSION=3.2.1
 ARG KUBECTL_VERSION=1.17.5
@@ -40,11 +42,11 @@ RUN case `uname -m` in \
     cat /envfile
 
 # Install helm (latest release)
-RUN . /envfile && echo $ARCH && \
-    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-$ARCH.tar.gz | tar -xvz && \
-    mv linux-$ARCH/helm /usr/bin/helm && \
+RUN . /envfile && echo ${ARCH} && \
+    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
+    mv linux-${ARCH}/helm /usr/bin/helm && \
     chmod +x /usr/bin/helm && \
-    rm -rf linux-$ARCH && \
+    rm -rf linux-${ARCH} && \
     # add helm-diff
     helm plugin install https://github.com/databus23/helm-diff && \
     # add helm-unittest
