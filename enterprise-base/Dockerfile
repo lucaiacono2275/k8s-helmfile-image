@@ -15,6 +15,7 @@ ARG KUBECONFORM_VERSION=0.6.3
 # Install helm (latest release)
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends --no-install-suggests \
+    apt-transport-https \
     helm
 
 # ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
