@@ -39,7 +39,6 @@ RUN case `uname -m` in \
     cat /envfile
 
 RUN . /envfile && echo $ARCH && \
-    apk add --update --no-cache curl ca-certificates bash git && \
     curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
     mv linux-${ARCH}/helm /usr/bin/helm && \
     chmod +x /usr/bin/helm && \
