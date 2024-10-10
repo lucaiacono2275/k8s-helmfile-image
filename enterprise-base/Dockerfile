@@ -39,7 +39,7 @@ RUN case `uname -m` in \
     cat /envfile
 
 RUN . /envfile && echo "${ARCH}" && \
-    echo "${HELM_VERSION}"" && \
+    echo "${HELM_VERSION}" && \
     curl -sLO "https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz" 
     #&& \
     #tar -xvz helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz && \
