@@ -19,7 +19,7 @@ RUN apt-get update && \
 
 RUN apt-get update && \
     apt-get install --yes --no-install-recommends --no-install-suggests \
-    helm \
+    helm
 
 # ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
 RUN case `uname -m` in \
