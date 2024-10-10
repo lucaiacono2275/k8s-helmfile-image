@@ -20,9 +20,9 @@ ARG KUBECONFORM_VERSION=0.6.3
 #    apt-get update && \
 #    apt-get install --yes --no-install-recommends --no-install-suggests helm
 
-RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
-    chmod 700 get_helm.sh && \
-    ./get_helm.sh
+#RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
+#    chmod 700 get_helm.sh && \
+#    ./get_helm.sh
 
 
 # ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
@@ -37,8 +37,9 @@ RUN case `uname -m` in \
     echo "export ARCH=$ARCH" > /envfile && \
     cat /envfile
 
-#RUN . /envfile && echo $ARCH && \
-#    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
+RUN . /envfile && echo $ARCH && \
+    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz 
+    #| tar -xvz && \
 #    mv linux-${ARCH}/helm /usr/bin/helm && \
 #    chmod +x /usr/bin/helm && \
 #    rm -rf linux-${ARCH}  
