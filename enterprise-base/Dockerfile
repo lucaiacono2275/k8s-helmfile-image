@@ -39,12 +39,10 @@ RUN case `uname -m` in \
     cat /envfile
 
 RUN . /envfile && echo $ARCH && \
-    wget -q https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz
-    #curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz 
-    #| tar -xvz && \
-#    mv linux-${ARCH}/helm /usr/bin/helm && \
-#    chmod +x /usr/bin/helm && \
-#    rm -rf linux-${ARCH}  
+    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
+    mv linux-${ARCH}/helm /usr/bin/helm && \
+    chmod +x /usr/bin/helm && \
+    rm -rf linux-${ARCH}  
 
 # add helm-diff
 #RUN helm plugin install https://github.com/databus23/helm-diff && rm -rf /tmp/helm-*
