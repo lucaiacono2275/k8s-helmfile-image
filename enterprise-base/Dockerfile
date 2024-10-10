@@ -38,13 +38,15 @@ RUN case `uname -m` in \
     echo "export ARCH=$ARCH" > /envfile && \
     cat /envfile
 
-RUN . /envfile && echo $ARCH && \
-    curl -sLO "https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz" && \
-    tar -xvz helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz && \
-    mv linux-${ARCH}/helm /usr/bin/helm && \
-    chmod +x /usr/bin/helm && \
-    rm -rf linux-${ARCH} && \
-    rm -rf helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz
+RUN . /envfile && echo "${ARCH}" && \
+    echo "${HELM_VERSION}"" && \
+    curl -sLO "https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz" 
+    #&& \
+    #tar -xvz helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz && \
+    #mv linux-${ARCH}/helm /usr/bin/helm && \
+    #chmod +x /usr/bin/helm && \
+    #rm -rf linux-${ARCH} && \
+    #rm -rf helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz
 
 # add helm-diff
 #RUN helm plugin install https://github.com/databus23/helm-diff && rm -rf /tmp/helm-*
