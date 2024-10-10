@@ -5,7 +5,7 @@ USER root
 
 
 # docker build --no-cache --build-arg KUBECTL_VERSION=${tag} --build-arg HELM_VERSION=${helm} --build-arg KUSTOMIZE_VERSION=${kustomize_version} -t ${image}:${tag} .
-#ARG HELM_VERSION=3.2.1
+ARG HELM_VERSION=3.2.1
 ARG KUBECTL_VERSION=1.17.5
 ARG KUSTOMIZE_VERSION=v3.8.1
 ARG KUBESEAL_VERSION=0.18.1
@@ -38,10 +38,16 @@ RUN case `uname -m` in \
     echo "export ARCH=$ARCH" > /envfile && \
     cat /envfile
 
-RUN . /envfile && echo "${ARCH}" && \
-    echo "${HELM_VERSION}" && \
-    curl -sLO "https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz" 
-    #&& \
+RUN . /envfile && echo $ARCH && \
+    apk add --update --no-cache curl ca-certificates bash git && \
+    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
+    mv linux-${ARCH}/helm /usr/bin/helm && \
+    chmod +x /usr/bin/helm && \
+    rm -rf linux-${ARCH}
+
+#RUN . /envfile && echo "${ARCH}" && \
+#    echo "${HELM_VERSION}" && \
+#    curl -sLO "https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz" |  && \
     #tar -xvz helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz && \
     #mv linux-${ARCH}/helm /usr/bin/helm && \
     #chmod +x /usr/bin/helm && \
