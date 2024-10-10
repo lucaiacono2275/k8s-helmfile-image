@@ -24,10 +24,13 @@ RUN case `uname -m` in \
 
 # Install helm (latest release)
 RUN . /envfile && echo ${ARCH} && echo ${HELM_VERSION} && \
-    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
+    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz && \
+    #| tar -xvz && \
+    tar -xvz helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz && \
     mv linux-${ARCH}/helm /usr/bin/helm && \
     chmod +x /usr/bin/helm && \
-    rm -rf linux-${ARCH}
+    rm -rf linux-${ARCH} && \
+    rm -rf helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz 
 # add helm-diff
 RUN helm plugin install https://github.com/databus23/helm-diff && \
     rm -rf /tmp/helm-* 
