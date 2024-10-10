@@ -13,12 +13,17 @@ ARG VALS_VERSION=0.28.1
 ARG KUBECONFORM_VERSION=0.6.3
 
 # Install helm (latest release)
-RUN apt-get update && \
-    apt-get install --yes --no-install-recommends --no-install-suggests apt-transport-https && \
-    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null && \
-    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list  &&\
-    apt-get update && \
-    apt-get install --yes --no-install-recommends --no-install-suggests helm
+#RUN apt-get update && \
+#    apt-get install --yes --no-install-recommends --no-install-suggests apt-transport-https && \
+#    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null && \
+#    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list  &&\
+#    apt-get update && \
+#    apt-get install --yes --no-install-recommends --no-install-suggests helm
+
+RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
+    chmod 700 get_helm.sh && \
+    ./get_helm.sh
+
 
 # ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
 RUN case `uname -m` in \
