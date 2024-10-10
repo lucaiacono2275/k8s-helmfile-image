@@ -9,24 +9,7 @@ ARG ARCH
 ARG HELM_VERSION=3.2.1
 ARG KUBECTL_VERSION=1.17.5
 ARG KUSTOMIZE_VERSION=v3.8.1
-ARG KUBESEAL_VERSION=0.18.1
-ARG KREW_VERSION=v0.4.4
-ARG VALS_VERSION=0.28.1
-ARG KUBECONFORM_VERSION=0.6.3
 ARG HELMFILE_VERSION=0.168.0
-
-# Install helm (latest release)
-#RUN apt-get update && \
-#    apt-get install --yes --no-install-recommends --no-install-suggests apt-transport-https && \
-#    curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null && \
-#    echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list  &&\
-#    apt-get update && \
-#    apt-get install --yes --no-install-recommends --no-install-suggests helm
-
-#RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 && \
-#    chmod 700 get_helm.sh && \
-#    ./get_helm.sh
-
 
 # Install helm (latest release)
 # ENV BASE_URL="https://storage.googleapis.com/kubernetes-helm"
@@ -56,18 +39,21 @@ RUN . /envfile && echo ${ARCH} && \
     # cleanup
     rm -rf /tmp/helm-* \
     /root/.local/share/helm/plugins/helm-push/testdata \
-    /root/.cache/helm/plugins/https-github.com-chartmuseum-helm-push/testdata && \
+    /root/.cache/helm/plugins/https-github.com-chartmuseum-helm-push/testdata
 # Install kubectl
+RUN . /envfile && echo ${ARCH} && \
     curl -sLO "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
     mv kubectl /usr/bin/kubectl && \
-    chmod +x /usr/bin/kubectl && \
+    chmod +x /usr/bin/kubectl
 # Install kustomize (latest release)
+RUN . /envfile && echo ${ARCH} && \
     curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
     tar xvzf kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
     mv kustomize /usr/bin/kustomize && \
     chmod +x /usr/bin/kustomize && \
-    rm kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
+    rm kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz
 # Install helmfile    
+RUN . /envfile && echo ${ARCH} && \
     curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
     tar xvzf helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
     mv helmfile /usr/bin/helmfile && \
