@@ -1,4 +1,5 @@
-FROM codercom/enterprise-base
+ARG BASEIMAGE_VERSION=ubuntu-20240701
+FROM codercom/enterprise-base:${BASEIMAGE_VERSION}
 
 USER root
 
