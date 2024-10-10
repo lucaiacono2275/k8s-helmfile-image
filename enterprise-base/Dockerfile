@@ -54,22 +54,23 @@ RUN . /envfile && echo $ARCH && \
     # cleanup
     rm -rf /tmp/helm-* \
     /root/.local/share/helm/plugins/helm-push/testdata \
-    /root/.cache/helm/plugins/https-github.com-chartmuseum-helm-push/testdata && \
+    /root/.cache/helm/plugins/https-github.com-chartmuseum-helm-push/testdata 
+    # && \
 # Install kubectl
-    curl -sLO "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
-    mv kubectl /usr/bin/kubectl && \
-    chmod +x /usr/bin/kubectl && \
+#    curl -sLO "https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/${ARCH}/kubectl" && \
+#    mv kubectl /usr/bin/kubectl && \
+#    chmod +x /usr/bin/kubectl && \
 # Install kustomize (latest release)
-    curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
-    tar xvzf kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
-    mv kustomize /usr/bin/kustomize && \
-    chmod +x /usr/bin/kustomize && \
-    rm kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
+#    curl -sLO https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2F${KUSTOMIZE_VERSION}/kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
+#    tar xvzf kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
+#    mv kustomize /usr/bin/kustomize && \
+#    chmod +x /usr/bin/kustomize && \
+#    rm kustomize_${KUSTOMIZE_VERSION}_linux_${ARCH}.tar.gz && \
 # Install helmfile    
-    curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
-    tar xvzf helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
-    mv helmfile /usr/bin/helmfile && \
-    chmod +x /usr/bin/helmfile && \
-    rm helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
+#    curl -sLO https://github.com/helmfile/helmfile/releases/download/v${HELMFILE_VERSION}/helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
+#    tar xvzf helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz && \
+#    mv helmfile /usr/bin/helmfile && \
+#    chmod +x /usr/bin/helmfile && \
+#    rm helmfile_${HELMFILE_VERSION}_linux_${ARCH}.tar.gz
 
 USER coder
