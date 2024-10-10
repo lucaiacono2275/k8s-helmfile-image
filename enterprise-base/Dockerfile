@@ -11,7 +11,7 @@ ARG KUBESEAL_VERSION=0.18.1
 ARG KREW_VERSION=v0.4.4
 ARG VALS_VERSION=0.28.1
 ARG KUBECONFORM_VERSION=0.6.3
-ENV HELMFILE_VERSION=0.168.0
+ARG HELMFILE_VERSION=0.168.0
 
 # Install helm (latest release)
 #RUN apt-get update && \
@@ -41,10 +41,10 @@ RUN case `uname -m` in \
 
 # Install helm (latest release)
 RUN . /envfile && echo $ARCH && \
-    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz | tar -xvz && \
-    mv linux-${ARCH}/helm /usr/bin/helm && \
+    curl -sL https://get.helm.sh/helm-v${HELM_VERSION}-linux-$ARCH.tar.gz | tar -xvz && \
+    mv linux-$ARCH/helm /usr/bin/helm && \
     chmod +x /usr/bin/helm && \
-    rm -rf linux-${ARCH} && \
+    rm -rf linux-$ARCH && \
     # add helm-diff
     helm plugin install https://github.com/databus23/helm-diff && \
     # add helm-unittest
