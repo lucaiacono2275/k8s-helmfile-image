@@ -23,20 +23,20 @@ RUN case `uname -m` in \
     cat /envfile
 
 # Install helm (latest release)
-RUN . /envfile && echo ${ARCH} && echo ${HELM_VERSION} && \
-    curl -sLO https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz && \
-    #| tar -xvz && \
-    tar -xvz helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz && \
-    mv linux-${ARCH}/helm /usr/bin/helm && \
-    chmod +x /usr/bin/helm && \
-    rm -rf linux-${ARCH} && \
-    rm -rf helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz 
+RUN . /envfile && \
+    echo ${ARCH} && \
+    echo ${HELM_VERSION} && \
+    curl -sLO https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz
+    # | tar -xvz && \
+    # mv linux-${ARCH}/helm /usr/bin/helm && \
+    # chmod +x /usr/bin/helm && \
+    # rm -rf linux-${ARCH} 
 # add helm-diff
-RUN helm plugin install https://github.com/databus23/helm-diff && \
-    rm -rf /tmp/helm-* 
+# RUN helm plugin install https://github.com/databus23/helm-diff && \
+#     rm -rf /tmp/helm-* 
 # add helm-unittest
-RUN helm plugin install https://github.com/helm-unittest/helm-unittest && \
-    rm -rf /tmp/helm-* 
+# RUN helm plugin install https://github.com/helm-unittest/helm-unittest && \
+#     rm -rf /tmp/helm-* 
 
 # Install kubectl
 RUN . /envfile && echo ${ARCH} && \
