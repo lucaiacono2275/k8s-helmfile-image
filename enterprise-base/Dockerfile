@@ -23,10 +23,16 @@ RUN case `uname -m` in \
     cat /envfile
 
 # Install helm (latest release)
-RUN . /envfile && \
-    echo ${ARCH} && \
-    echo ${HELM_VERSION} && \
-    curl -sLO https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz
+RUN curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/keyrings/helm.gpg > /dev/null && \
+    apt-get update && \
+    apt-get install apt-transport-https --yes && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list && \
+    apt-get update && \
+    apt-get install helm
+#RUN . /envfile && \
+    #echo ${ARCH} && \
+    #echo ${HELM_VERSION} && \
+    #curl -sLO https://get.helm.sh/helm-v${HELM_VERSION}-linux-${ARCH}.tar.gz
     # | tar -xvz && \
     # mv linux-${ARCH}/helm /usr/bin/helm && \
     # chmod +x /usr/bin/helm && \
