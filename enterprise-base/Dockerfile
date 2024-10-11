@@ -38,11 +38,11 @@ RUN curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | tee /usr/share/
     # chmod +x /usr/bin/helm && \
     # rm -rf linux-${ARCH} 
 # add helm-diff
-# RUN helm plugin install https://github.com/databus23/helm-diff && \
-#     rm -rf /tmp/helm-* 
+RUN helm plugin install https://github.com/databus23/helm-diff && \
+    rm -rf /tmp/helm-* 
 # add helm-unittest
-# RUN helm plugin install https://github.com/helm-unittest/helm-unittest && \
-#     rm -rf /tmp/helm-* 
+RUN helm plugin install https://github.com/helm-unittest/helm-unittest && \
+    rm -rf /tmp/helm-* 
 
 # Install kubectl
 RUN . /envfile && echo ${ARCH} && \
